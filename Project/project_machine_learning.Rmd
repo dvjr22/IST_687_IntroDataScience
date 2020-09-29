@@ -1,0 +1,111 @@
+---
+title: "Project Machine Learning"
+author: "Diego Valdes"
+date: "March 20, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r cars}
+# 005_project_ml.R
+# @version: 1
+# @author:  Diego Valdes
+# @date:  Feb 14, 2019
+# IST 687
+# Clean openpowerlifting.csv - https://www.kaggle.com/open-powerlifting/powerlifting-database
+
+library(randomForest)
+library(neuralnet)
+
+rm(list=ls()) # clear work space
+#dev.off(dev.list()["RStudioGD"]) # clear plots
+
+############################################################################################################
+#                                            Prepare Data
+############################################################################################################
+
+setwd("C:/Users/dvjr2/Google Drive/Documents/Syracuse/IST_687/Project/")
+filePath = "clean_power_lifting.csv" # cleaned data - yay Katie!
+
+# read data and take a look
+powerLiftingOG <- read.csv(file = filePath, header=TRUE, sep=",", stringsAsFactors = FALSE) 
+str(powerLiftingOG)
+summary(powerLiftingOG)
+
+powerLiftingOG$Sex = as.factor(powerLiftingOG$Sex) # Make Sex a factor for predicting
+
+powerLifting = powerLiftingOG[ , c(-1,-2,-3, -5,-6, -8, -12, -13)] # get rid of unwanted cols
+powerLifting = na.omit(powerLifting) # clear NAs to run model
+
+powerLifting = powerLifting[sample(nrow(powerLifting)), ] # randomize
+trngData = powerLifting[1:ceiling(nrow(powerLifting)*.7) , ] # trng data 70% of original data
+testData = powerLifting[(ceiling(nrow(powerLifting)*.7)+1):nrow(powerLifting), ] # test data
+
+############################################################################################################
+#                                             Random Forest
+############################################################################################################
+
+modelRF = randomForest(trngData[ , -1], trngData[ , 1]) # independent, dependent
+summary(modelRF)
+
+round(importance(modelRF), 2) # importance of variables, high is better
+
+# make predictions
+results = predict(modelRF, testData[ ,  -1])
+
+# look at results w/ confusion matrix
+table(results)
+table(testData$Sex)
+matrix = table(results, testData$Sex)
+matrix
+
+# male vs female accuracy
+print(paste('Female Predict Accuracy:', matrix[1,1]/sum(testData$Sex == "F"))) 
+print(paste('Male Predict Accuracy:', matrix[2,2]/sum(testData$Sex == "M"))) 
+
+# Overall accuracy
+print(paste('Overall Accuracy: ', (matrix[1,1] + matrix[2,2])/length(testData$Sex )))
+
+############################################################################################################
+#                                           Linear Model
+############################################################################################################
+
+
+# change F/M to 1/0, LM seems to work better this way
+trngData$Sex = ifelse(trngData$Sex == 'F', 1, 0)
+testData$Sex = ifelse(testData$Sex == 'F', 1, 0)
+
+# Lm with same variables used in randomForest()
+modelGLM = glm(Sex ~ BodyweightKg + BestSquatKg + BestBenchKg + BestDeadliftKg, data = trngData, family = "binomial")
+summary(modelGLM) # all variables are significant
+
+accuracy = .5 # accuracy variable, if prediction is above, assign predicition value
+result = predict(modelGLM, testData[ , 2:5], type = "response") # we want the percentage of females
+result = ifelse(result > accuracy, 1, 0) # assign male or female prediction based on accuracy
+Error = mean(result != testData[ , 1]) # getting wrong values
+print(paste('Overall Accuracy:', 1  - Error)) # total accuracy
+
+
+# build a neural network based on linear model
+modelNeural = neuralnet(Sex ~ BodyweightKg + BestSquatKg + BestBenchKg + BestDeadliftKg, data = trngData, 
+                        hidden = 2, lifesign = 'minimal', linear.output = FALSE, threshold = 0.1)
+summary(modelNeural) 
+plot(modelNeural, rep = 'best') #plot it
+modelNeural$result.matrix # see the matrix
+
+# predict and accuracy
+resultNeural = predict(modelNeural, testData[ , 2:5], type = "response")
+resultNeural = ifelse(resultNeural > accuracy, 1, 0) # assign male or female prediction based on accuracy
+Error = mean(resultNeural != testData[ , 1]) # getting wrong values
+print(paste('Overall Accuracy:', 1  - Error)) # total accuracy
+
+
+
+
+
+```
+

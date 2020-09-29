@@ -1,0 +1,144 @@
+---
+title: "HW9"
+author: "Diego Valdes"
+date: "March 16, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r cars}
+rm(list=ls()) # clear work space
+#dev.off(dev.list()["RStudioGD"]) # clear plots
+
+library(kernlab)
+library(ggplot2)
+library(e1071)
+library(gridExtra)
+library(grid)
+
+# get air quality data
+dataAQ = airquality
+summary(dataAQ)
+str(dataAQ)
+
+# remove nas
+dataAQ = na.omit(dataAQ)
+sum(is.na(dataAQ) == TRUE)
+
+# split trng and test data
+trngData = dataAQ[1:77, ]
+testData = dataAQ[78:111, ]
+
+# plots to see what variables to start with
+plot(airquality$Solar.R, airquality$Ozone)
+plot(airquality$Wind, airquality$Ozone)
+plot(airquality$Temp, airquality$Ozone)
+plot(airquality$Month, airquality$Ozone)
+
+# ksvm model
+model.ksvm = ksvm(Ozone ~ Wind + Temp + Month, data = trngData, 
+                  kernel = "rbfdot", kpar = "automatic", C = 5, 
+                  cross = 3, prob.model = TRUE)
+model.ksvm
+
+result.ksvm = predict(model.ksvm, testData[ , 3:5])
+
+# transform for plotting
+P.Ozone = testData$Ozone - result.ksvm
+P.Ozone = scale(P.Ozone) # z score
+P.Ozone = sqrt(P.Ozone*P.Ozone) + 1 # get rid of negatives and ad 1 for graphing
+resultsdf = cbind(testData$Wind, testData$Temp, P.Ozone)
+
+result.ksvn.df = as.data.frame(resultsdf) # assign to new df
+colnames(result.ksvn.df) = c("Wind", "Temp", "P.Ozone.ksvm")
+
+k = ggplot(result.ksvn.df, aes(Temp, Wind)) + geom_point(size = P.Ozone) # plot
+
+# svm model
+model.svm = svm(Ozone ~ Wind + Temp + Month, data = trngData)
+result.svm = predict(model.svm, testData[ , 3:5])
+
+# transform and add to df for plot
+P.Ozone.svm = testData$Ozone - result.svm
+P.Ozone.svm = scale(P.Ozone.svm)
+P.Ozone.svm = sqrt(P.Ozone.svm*P.Ozone.svm) + 1
+result.ksvn.df$P.Ozone.svm = P.Ozone.svm
+
+s = ggplot(result.ksvn.df, aes(Temp, Wind)) + geom_point(size = P.Ozone.svm) # plot
+
+# lm model
+model.lm = lm(Ozone ~ Wind + Temp + Month, data = trngData)
+result.lm = predict(model.lm, testData[ , 3:5])
+
+# transform and add to df for plot
+P.Ozone.lm = testData$Ozone - result.lm
+P.Ozone.lm = scale(P.Ozone.lm)
+P.Ozone.lm = sqrt(P.Ozone.lm*P.Ozone.lm) + 1
+result.ksvn.df$P.Ozone.lm = P.Ozone.lm
+
+l = ggplot(result.ksvn.df, aes(Temp, Wind)) + geom_point(size = P.Ozone.lm)
+
+# plot on same grid
+grid.arrange(k, s, l, ncol = 2)
+
+# good ozone variable for trng and test data
+goodOzone = mean(trngData$Ozone)
+trngData$GoodOzone = ifelse(trngData$Ozone >= goodOzone, 1, 0)
+
+goodOzone = mean(testData$Ozone)
+testData$GoodOzone = ifelse(testData$Ozone >= goodOzone, 1, 0)
+
+# ksvm model
+gOzoneM.ksvm = ksvm(GoodOzone ~ Wind + Temp + Month, data = trngData, 
+                    kernel = "rbfdot", kpar = "automatic", 
+                    C = 50, cross = 3, prob.model = TRUE, type = 'C-svc')
+gOzoneM.ksvm
+
+result.ksvm.GO = predict(gOzoneM.ksvm, testData[ , 3:5], type = 'response')
+result.ksvm.GO
+
+# place in df for plotting
+testData$gOzoneResult.k = result.ksvm.GO
+testData$Correct.k = ifelse(testData$gOzoneResult.k == testData$GoodOzone, 1, 3)
+k = ggplot(testData, aes(Temp, Wind)) + 
+  geom_point(shape = testData$gOzoneResult.k, size = testData$Correct.k, color = testData$GoodOzone+1)
+
+# svm model
+gOzoneM.svm = svm(GoodOzone ~ Wind + Temp + Month, data = trngData)
+gOzoneM.svm
+
+# place in df for modeling
+result.svm.GO = predict(gOzoneM.svm, testData[ , 3:5])
+result.svm.GO
+
+# get % for prediction
+accuracy = .5
+testData$gOzoneResult.s = ifelse(result.svm.GO > accuracy, 1, 0)
+testData$Correct.s = ifelse(testData$gOzoneResult.s == testData$GoodOzone, 1, 3)
+s = ggplot(testData, aes(Temp, Wind)) + 
+  geom_point(shape = testData$gOzoneResult.s, size = testData$Correct.s, color = testData$GoodOzone+1)
+
+# naive bayes model
+gOzoneM.nb = naiveBayes(GoodOzone ~ Wind + Temp + Month, data = trngData)
+gOzoneM.nb
+
+result.nb.GO = predict(gOzoneM.nb, testData[ , 3:5], type = "raw")
+result.nb.GO
+
+# get % for prediction
+testData$gOzoneResult.n = ifelse(result.nb.GO[,1] > accuracy, 1, 0)
+testData$Correct.n = ifelse(testData$gOzoneResult.n == testData$GoodOzone, 1, 3)
+n = ggplot(testData, aes(Temp, Wind)) + 
+  geom_point(shape = testData$gOzoneResult.n, size = testData$Correct.n, color = testData$GoodOzone+1)
+
+# plot
+grid.arrange(k, s, n, ncol = 2)
+
+# For me, SVM was the better model.  It had the least incorrect predictions.  Of course,
+# that could be b/c I completely screwed this up.
+
+```

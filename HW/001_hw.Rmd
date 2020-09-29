@@ -1,0 +1,60 @@
+---
+title: "HW 1"
+author: "Diego Valdes"
+date: "January 6, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r hw_001}
+height = c(59, 60, 61, 58, 67, 72, 70)
+weight = c(150, 140, 180, 220, 160, 140, 130)
+
+a = 150
+
+# step 1
+# 1
+mean(height)
+# 2
+mean(weight)
+# 3
+length(height)
+length(weight)
+# 4
+sum(height)
+# 5
+sum(height)/length(height)
+sum(weight)/length(height)
+
+# step 2
+# 6
+maxH = max(height)
+# 7
+minW = min(weight)
+
+# step 3
+# 8
+newWeight = weight + 5
+# 9
+newWeight/height
+
+# step 4
+# 10
+if (maxH > 60) {
+  print('Yes')
+}else{
+  print('No')
+}
+  
+#11
+if (minW > a) {
+  print('Yes')
+}else{
+  print('No')
+}
+
+```

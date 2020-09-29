@@ -1,0 +1,58 @@
+---
+title: "HW3"
+author: "Diego Valdes"
+date: "January 26, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r hw_003}
+rm(list=ls()) # clear work space
+
+# fuction to read data
+readStates = function() {
+  
+  # read from url
+  states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+  
+  states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+  states = states[complete.cases(states),] # remove na rows
+  
+  colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011') # name cols
+  
+  states = states[9:59 , ] # Only want 50 states plus DC... FU Puerto Rico
+  
+  # turning those factors into numeric
+  states$base2010 = as.numeric(gsub(",","",states$base2010))
+  states$base2011 = as.numeric(gsub(",","",states$base2011))
+  states$Jul2010 = as.numeric(gsub(",","",states$Jul2010))
+  states$Jul2011 = as.numeric(gsub(",","",states$Jul2011))
+
+  return (states)
+    
+}
+
+dfStates = readStates() # get that data
+mean(dfStates$Jul2011) #testing mean - 6109645
+
+# get the state with highest pop - Cali
+dfStates[ dfStates$Jul2011 == max(dfStates$Jul2011),  ]
+
+
+dfStates[order(dfStates$Jul2011),] # sort data
+
+
+# function for distribution
+distribution = function(v_data, v_num){
+  
+  return (sum(v_data < v_num)/length(v_data))
+  
+}
+
+# testing the function
+distribution(dfStates$Jul2011, mean(dfStates$Jul2011))
+
+```

@@ -1,0 +1,512 @@
+states$base2010 = as.numeric(levels(states$base2010))[states$base2010]
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+states = states[complete.cases(states),]
+colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011')
+states = states[9:59 , ]
+states$base2010 = as.character(states$base2010)
+View(states)
+states$base2010 = as.numeric(states$base2010)
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+states = states[complete.cases(states),]
+colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011')
+states = states[9:59 , ]
+as.numeric(levels(states$base2010))[states$base2010]
+states = data.frame(states)
+View(states)
+str(states)
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+states = states[complete.cases(states),]
+colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011')
+states = states[9:59 , ]
+str(states)
+states$base2010 = as.numeric(levels(states$base2010)[states$base2010])
+str(states)
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+states = states[complete.cases(states),]
+colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011')
+states = states[9:59 , ]
+states$base2010 = as.numeric(levels(states$base2010))
+View(states)
+str(states)
+states$base2010 = as.numeric(states$base2010)
+str(states)
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+View(states)
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+states = states[complete.cases(states),]
+colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011')
+states = states[9:59 , ]
+states$base2010 = as.numeric(gsub(",","",states$base2010))
+str(states)
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+states = states[complete.cases(states),]
+colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011')
+states = states[9:59 , ]
+View(states)
+states$base2010 = as.numeric(gsub(",","",states$base2010))
+states[ , 2:5]
+states[ , 2:5] = as.numeric(gsub(",","",states[ , 2:5]))
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+states = states[complete.cases(states),]
+colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011')
+states = states[9:59 , ]
+states$base2010 = as.numeric(gsub(",","",states$base2010))
+states$base2011 = as.numeric(gsub(",","",states$base2011))
+states$Jul2010 = as.numeric(gsub(",","",states$Jul2010))
+states$Jul2011 = as.numeric(gsub(",","",states$Jul2011))
+str(states)
+readStates = function() {
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+states = states[complete.cases(states),]
+colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011')
+states = states[9:59 , ]
+states$base2010 = as.numeric(gsub(",","",states$base2010))
+states$base2011 = as.numeric(gsub(",","",states$base2011))
+states$Jul2010 = as.numeric(gsub(",","",states$Jul2010))
+states$Jul2011 = as.numeric(gsub(",","",states$Jul2011))
+return (states)
+}
+dfStates = readStates()
+rm(list=ls())
+dfStates = readStates()
+dfStates = readStates()
+mean(dfStates)
+dfStates = readStates()
+readStates = function() {
+states = read.csv(url("http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"))
+states = states[ , colSums(is.na(states)) < nrow(states)] # remove na cols
+states = states[complete.cases(states),]
+colnames(states) = c('stateName', 'base2010', 'base2011', 'Jul2010', 'Jul2011')
+states = states[9:59 , ]
+states$base2010 = as.numeric(gsub(",","",states$base2010))
+states$base2011 = as.numeric(gsub(",","",states$base2011))
+states$Jul2010 = as.numeric(gsub(",","",states$Jul2010))
+states$Jul2011 = as.numeric(gsub(",","",states$Jul2011))
+return (states)
+}
+dfStates = readStates()
+mean(dfStates$Jul2011)
+dfStates[ , max(dfStates$Jul2011) ]
+dfStates[ max(dfStates$Jul2011),  ]
+max(dfStates$Jul2011)
+dfStates[ dfStates$Jul2011 == max(dfStates$Jul2011),  ]
+dfStates[order(dfStates$Jul2011),]
+v_num = dfStates$Jul2011)
+v_num = dfStates$Jul2011
+v_data = dfStates$Jul2011
+v_num = 2
+v_data = c(1,2,3,4,5)
+sum(v_data < v_num)
+sum(v_data < v_num)/v_num
+sum(v_data < v_num)/length(v_data)
+distribution = function(v_data, v_num){
+return (sum(v_data < v_num)/length(v_data))
+}
+distribution(v_data, v_num)
+v_data =
+distribution(dfStates$Jul2011, mean(dfStates$Jul2011))
+v_data =
+distribution(dfStates$Jul2011, mean(dfStates$Jul2011))
+distribution(dfStates$Jul2011, mean(dfStates$Jul2011))
+mean(dfStates$Jul2011)
+dfStates[ dfStates$Jul2011 == max(dfStates$Jul2011),  ]
+mean(dfStates$Jul2011) #testing mean - 6109645
+# get the state with highest pop - Cali
+dfStates[ dfStates$Jul2011 == max(dfStates$Jul2011),  ]
+dfStates[order(dfStates$Jul2011),]
+# testing the function
+distribution(dfStates$Jul2011, mean(dfStates$Jul2011))
+rm(list=ls()) #
+jar = c(-1,0,1)
+mean(sample(jar, 250, replace = TRUE))
+jarSample = mean(sample(jar, 250, replace = TRUE))
+hist(jarSample)
+hist(jarSample)
+hist(jarSample)
+jarSample = mean(sample(jar, 250, replace = TRUE))
+s = sample(jar, 250, replace = TRUE)
+jarSample = mean(s)
+hist(s)
+s = sample(jar, 25000, replace = TRUE)
+jarSample = mean(s)
+hist(s)
+replicate(25000, mean(sample(jar, 25000, replace = TRUE)))
+hist(s)
+hist(t)
+t = replicate(25000, mean(sample(jar, 25000, replace = TRUE)))
+jarSample = mean(s)
+hist(s)
+hist(t)
+rm(list=ls()) # clear work space
+v_data = c	(1,2,3,4,5,6,7,8,9,10,50)
+print(mean(v_data))
+print('Mean:' + mean(v_data))
+print('mean')
+print('mean' + v_data)
+print(paste0("Mean: ", mean(v_data)))
+median(v_data)
+print(paste0("Median: ", median(v_data)))
+print(paste0("min: ", min(v_data)))
+print(paste0("min: ", min(v_data)), paste0("min: ", min(v_data)) )
+print(paste0("min: ", min(v_data)) )
+paste0("min: ", min(v_data))
+paste0("min: ", max(v_data))
+sd(v_data)
+print(paste0("sd: ", sd(v_data)))
+?quantile
+print(paste0("quantile: ", quantile(v_data, probs = seq(0.05, 0.95))))
+print(paste0("quantile: ", quantile(v_data, probs = seq(0.05 - 0.95))))
+print(paste0("quantile: ", quantile(v_data, probs = seq(0.05, 0.95))))
+print(paste0("quantile: ", quantile(v_data, probs = seq(0.95))))
+print(paste0("quantile: ", quantile(v_data, probs = c(0.05,0.95))))
+?skewness
+??skewness
+??skewness
+library('moments')
+library(moments)
+install.packages("moments")
+library(moments)
+skewness(v_data)
+printVecInfo = function(v_data) {
+print(paste0("Mean: ", mean(v_data)))
+print(paste0("Median: ", median(v_data)))
+print(paste0("min: ", min(v_data)))
+print(paste0("min: ", max(v_data)))
+print(paste0("sd: ", sd(v_data)))
+print(paste0("quantile: ", quantile(v_data, probs = c(0.05,0.95))))
+print(paste0("skewness: ", skewness(v_data)))
+}
+printVecInfo(v_data)
+jar = c(rep(1,50))
+jar
+jar = c(rep(1,50), rep(0,50))
+jar
+jar = c(rep('red',50), rep('blue',50))
+jar
+?sum
+sum(jar)
+jar[1]
+jar["red"]
+'red' %in% jar
+a = table(jar)
+a
+jarSample = sample(jar, 10, replace = TRUE)
+jarSample
+table(jar)
+table(jar)
+table(jarSample)
+a[1]
+a = table(jarSample)
+a
+a[2]/sum(a)
+replicate(20, sample(jar, 10, replace = TRUE))
+mean(sample(jar, 10, replace = TRUE))
+a
+table(sample(jar, 10, replace = TRUE))
+table(sample(jar, 10, replace = TRUE))
+table(sample(jar, 10, replace = TRUE))
+table(sample(jar, 10, replace = TRUE))[1]
+table(sample(jar, 10, replace = TRUE))[1]
+table(sample(jar, 10, replace = TRUE))[2]/10
+table(sample(jar, 10, replace = TRUE))[2]/10
+table(sample(jar, 10, replace = TRUE))[2]/10
+mean(table(sample(jar, 10, replace = TRUE))[2]/10)
+replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+newSamples = replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples = replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples = replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples = replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples = replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples = replicate(20000, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples = replicate(20000, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples = replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples = replicate(20, mean(table(sample(jar, 100, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples = replicate(100, mean(table(sample(jar, 100, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+airquality
+temp = airquality
+View(temp)
+View(temp)
+test = c(1,2,3,NA,4)
+printVecInfo(test)
+airQualityTemp = airquality
+airQualityTemp = airQualityTemp[complete.cases(airQualityTemp), ]
+any(is.na(airQualityTemp) | is.infinite(airQualityTemp))
+any(is.na(airQualityTemp)
+any(is.na(airQualityTemp)
+airQualityTemp = airquality
+na.omit(airQualityTemp)
+airQualityTemp = na.omit(airQualityTemp)
+printVecInfo(airQualityTemp$Ozone)
+hist(airQualityTemp)
+hist(airQualityTemp$Ozone)
+printVecInfo(airQualityTemp$Solar.R)
+hist(airQualityTemp$Solar.R)
+printVecInfo(airQualityTemp$Wind)
+hist(airQualityTemp$Wind)
+printVecInfo(airQualityTemp$Temp)
+hist(airQualityTemp$Temp)
+printVecInfo(airQualityTemp$Month)
+hist(airQualityTemp$Month)
+printVecInfo(airQualityTemp$Day)
+hist(airQualityTemp$Day)
+rm(list=ls()) # clear work space
+dev.off(dev.list()["RStudioGD"])
+dev.off(dev.list()["RStudioGD"]) # clear plots
+# function to give vector info
+printVecInfo = function(v_data) {
+print(paste0("Mean: ", mean(v_data)))
+print(paste0("Median: ", median(v_data)))
+print(paste0("min: ", min(v_data)))
+print(paste0("min: ", max(v_data)))
+print(paste0("sd: ", sd(v_data)))
+print(paste0("quantile: ", quantile(v_data, probs = c(0.05,0.95))))
+print(paste0("skewness: ", skewness(v_data)))
+}
+jar = c(rep('red',50), rep('blue',50)) # jar of 50 red/50 blue marbles
+table(jar) # verify counts
+jarSample = sample(jar, 10, replace = TRUE)
+a = table(jarSample)
+a
+a[2]/sum(a)
+table(jarSample)[2]/10
+table(jarSample)[2]/10 # percentage red
+a = table(jarSample)
+a
+airQualityTemp = airquality
+summary(airQualityTemp)
+str(airquality)
+# replicate sample 20x of 10 samples
+newSamples = replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+# replicate sample 20x of 100 samples
+newSamples = replicate(20, mean(table(sample(jar, 100, replace = TRUE))[2]/100))
+printVecInfo(newSamples)
+hist(newSamples)
+# replicate sample 100x of 10 samples
+newSamples = replicate(100, mean(table(sample(jar, 100, replace = TRUE))[2]/100))
+printVecInfo(newSamples)
+hist(newSamples)
+newSamples
+# replicate sample 100x of 10 samples
+newSamples = replicate(100, mean(table(sample(jar, 100, replace = TRUE))[2]/100))
+printVecInfo(newSamples)
+hist(newSamples)
+knitr::opts_chunk$set(echo = TRUE)
+library(moments)
+library(moments)
+library(moments)
+library("moments", lib.loc="~/R/win-library/3.5")
+# function to give vector info
+printVecInfo = function(v_data) {
+print(paste0("Mean: ", mean(v_data)))
+print(paste0("Median: ", median(v_data)))
+print(paste0("min: ", min(v_data)))
+print(paste0("min: ", max(v_data)))
+print(paste0("sd: ", sd(v_data)))
+print(paste0("quantile: ", quantile(v_data, probs = c(0.05,0.95))))
+print(paste0("skewness: ", skewness(v_data)))
+}
+jar = c(rep('red',50), rep('blue',50)) # jar of 50 red/50 blue marbles
+table(jar) # verify counts
+jarSample = sample(jar, 10, replace = TRUE) # sample 10 marbles
+a = table(jarSample) # assign results
+a[2] # number red
+a[2]/sum(a) # percentage red
+# replicate sample 20x of 10 samples
+newSamples = replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+row(airQualityTemp)
+nrow(airQualityTemp)
+# airquality dataset
+airQualityTemp = airquality
+airQualityTemp = na.omit(airQualityTemp) # remove na
+nrow(airQualityTemp)
+# airquality dataset
+airQualityTemp = airquality
+airQualityTemp = airQualityTemp[complete.cases(airQualityTemp), ]
+nrow(airQualityTemp)
+View(airQualityTemp)
+airQualityTemp[1,]
+airQualityTemp[2,]
+meets_ds = read.csv(url("https://www.kaggle.com/open-powerlifting/powerlifting-database/version/1#meets.csv"))
+lisfting_ds = read.csv(url("https://www.kaggle.com/open-powerlifting/powerlifting-database/version/1#openpowerlifting.csv"))
+getwd()
+setwd("C:\Users\dvjr2\Google Drive\Documents\Syracuse\IST_687\Project")
+setwd("\Users\dvjr2\Google Drive\Documents\Syracuse\IST_687\Project")
+setwd("Users/dvjr2/Google Drive/Documents/Syracuse/IST_687/Project")
+setwd("C:/Users/dvjr2/Google Drive/Documents/Syracuse/IST_687/Project")
+meets_ds = read.csv("powerlifting_database/meets")
+getwd()
+meets_ds = read.csv("/powerlifting_database/meets")
+setwd("C:/Users/dvjr2/Google Drive/Documents/Syracuse/IST_687/Project/powerlifting_database")
+setwd("C:/Users/dvjr2/Google Drive/Documents/Syracuse/IST_687/Project")
+meets_ds = read.csv("/powerlifting_database/meets.csv")
+setwd("C:/Users/dvjr2/Google Drive/Documents/Syracuse/IST_687/Project/powerlifting_database")
+ls()
+meets_ds = read.csv(meets.csv")
+m
+meets_ds = read.csv(meets.csv")
+?read.csv
+meets_ds = read.csv("meets.csv")
+View(meets_ds)
+lisfting_ds = read.csv("openpowerlifting.csv")
+meets_ds = read.csv("powerlifting_database/meets.csv")
+setwd("C:/Users/dvjr2/Google Drive/Documents/Syracuse/IST_687/Project/")
+lisfting_ds = read.csv("powerlifting_database/openpowerlifting.csv")
+meets_ds = read.csv("powerlifting_database/meets.csv")
+lifting_ds = read.csv("powerlifting_database/openpowerlifting.csv")
+summary(lifting_ds)
+str(lifting_ds)
+rm(list=ls()) # clear work space
+dev.off(dev.list()["RStudioGD"]) # clear plots
+getwd()
+setwd("C:/Users/dvjr2/Google Drive/Documents/Syracuse/IST_687/Project/")
+lifting_ds = read.csv("powerlifting_database/openpowerlifting.csv")
+meets_ds = read.csv("powerlifting_database/meets.csv")
+summary(lifting_ds)
+str(lifting_ds)
+view(lifting_ds)
+View(lifting_ds)
+summary(meets_ds)
+test = uniqe(meets_ds$MeetPath)
+nrows(unique(meets_ds$MeetPath))
+nrow(unique(meets_ds$MeetPath))
+length(unique(meets_ds$MeetPath))
+length(meets_ds$MeetPath)
+str(meets_ds)
+sum(is.na(meets_ds$Date))
+length(unique(meets_ds$MeetName))
+meets_ds$MeetName
+length(meets_ds$MeetName)
+length(unique(meets_ds$MeetName))
+colnames(lifting_ds)
+colnames(meets_ds)
+summary(lifting_ds$BodyweightKg)
+lifting_ds$BodyweightKg[8]
+summary(lifting_ds$Name)
+lifting_ds$Name[8]
+lifting_ds$Name[500]
+summary(lifting_ds)
+meets_ds$MeetName
+colnames(meets_ds)
+colnames(lifting_ds)
+summary(meets_ds)
+str(meets_ds)
+summary(lifting_ds)
+str(lifting_ds)
+colnames(lifting_ds)
+cleanPowerLiftData <- function() {
+pl = read.csv("powerlifting_database/openpowerlifting.csv")
+##create variable to work with
+pl <- powerLifting
+##rounding BodyweightKg variable to hundreths place
+pl$BodyweightKg<-round(pl$BodyweightKg,2)
+##rounding Wilks variable to hundreths place
+pl$Wilks <- round(pl$Wilks,2)
+##removing period from Name variable
+pl$Name<-gsub("\\.","",pl$Name)
+##removing Squat4Kg, Bench4Kg, Deadlift4Kg variables
+pl<-pl[, -c(9,11,13)]
+##omit all NAs (leaves ~100k observations)
+pl<-na.omit(pl)
+}
+new_lifting_df = cleanPowerLiftData()
+cleanPowerLiftData <- function() {
+powerLifting = read.csv("powerlifting_database/openpowerlifting.csv")
+##create variable to work with
+pl <- powerLifting
+##rounding BodyweightKg variable to hundreths place
+pl$BodyweightKg<-round(pl$BodyweightKg,2)
+##rounding Wilks variable to hundreths place
+pl$Wilks <- round(pl$Wilks,2)
+##removing period from Name variable
+pl$Name<-gsub("\\.","",pl$Name)
+##removing Squat4Kg, Bench4Kg, Deadlift4Kg variables
+pl<-pl[, -c(9,11,13)]
+##omit all NAs (leaves ~100k observations)
+pl<-na.omit(pl)
+}
+new_lifting_df = cleanPowerLiftData()
+summary(new_lifting_df)
+str(new_lifting_df)
+colnames(new_lifting_df)
+View(new_lifting_df)
+str(new_lifting_df)
+str(lifting_ds)
+test_d = lifting_ds[lifting_ds$Age == 'na']
+test_d = lifting_ds[lifting_ds$Age == is.na(lifting_ds$Age)]
+test_d = lifting_ds[lifting_ds$Age == is.na(lifting_ds$Age),]
+test_d
+test_d = lifting_ds[lifting_ds$Age != is.na(lifting_ds$Age),]
+test_d
+test_d = lifting_ds[lifting_ds$Age != is.na(lifting_ds$Age),]
+test_d
+test_d = lifting_ds[lifting_ds$Age == is.na(lifting_ds$Age),]
+summary(test_d)
+test_d = lifting_ds[lifting_ds$Age != is.na(lifting_ds$Age),]
+summary(test_d)
+str(test_d)
+test_d$Age
+summary(test_d)
+test_d = complete.cases(lifting_ds[ , lifting_ds$Sex])
+View(test_d)
+test_d = na.omit(lifting_ds, cols = lifting_ds$Age)
+View(new_lifting_df)
+View(test_d)
+?na.omit
+summary(test_d)
+test_d = lifting_ds[complete.cases(lifting_ds[ , lifting_ds$Sex]), ]
+test_d = na.omit(lifting_ds, cols = lifting_ds$Age)
+test_d = lifting_ds[lifting_ds$Age != is.na(lifting_ds$Age),]
+x = complete.cases(lifting_ds[ , lifting_ds$Sex])
+str(x)
+summary(x)
+test_d = lifting_ds[is.na(lifting_ds$Age),]
+summary(test_d)
+test_d = lifting_ds[!is.na(lifting_ds$Age),]
+summary(test_d)
+summary(lifting_ds)
+summary(test_d)
+test_d = lifting_ds[is.na(lifting_ds$Age),]
+summary(test_d)
+test_d = lifting_ds[is.na(lifting_ds$Age),]
+summary(test_d)
+test_d = lifting_ds[complete.cases(lifting_ds[ , lifting_ds$Age]), ]
+test_d = lifting_ds[complete.cases(lifting_ds[ , lifting_ds$Age]), ]
+test_d = na.omit(lifting_ds, cols = lifting_ds$Age)
+test_d = lifting_ds[is.na(lifting_ds$Age),]
+summary(test_d)
+test_d = lifting_ds[!is.na(lifting_ds$Age),]
+summary(test_d)
+View(test_d)
+View(test_d)

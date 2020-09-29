@@ -1,0 +1,76 @@
+---
+title: "HW 4"
+author: "Diego Valdes"
+date: "January 31, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r hw 4 }
+library(moments)
+
+#rm(list=ls()) # clear work space
+#dev.off(dev.list()["RStudioGD"]) # clear plots
+
+# function to give vector info
+printVecInfo = function(v_data) {
+  
+  print(paste0("Mean: ", mean(v_data)))
+  print(paste0("Median: ", median(v_data)))
+  print(paste0("min: ", min(v_data)))
+  print(paste0("min: ", max(v_data)))
+  print(paste0("sd: ", sd(v_data)))
+  print(paste0("quantile: ", quantile(v_data, probs = c(0.05,0.95))))
+  print(paste0("skewness: ", skewness(v_data)))
+  
+}
+
+jar = c(rep('red',50), rep('blue',50)) # jar of 50 red/50 blue marbles
+table(jar) # verify counts
+
+jarSample = sample(jar, 10, replace = TRUE) # sample 10 marbles
+a = table(jarSample) # assign results
+a[2] # number red
+a[2]/sum(a) # percentage red
+
+# test stuff
+#mean(sample(jar, 10, replace = TRUE))
+#replicate(20, sample(jar, 10, replace = TRUE))
+#mean(table(sample(jar, 10, replace = TRUE))[2]/10)
+
+# replicate sample 20x of 10 samples
+newSamples = replicate(20, mean(table(sample(jar, 10, replace = TRUE))[2]/10))
+printVecInfo(newSamples)
+hist(newSamples)
+
+# replicate sample 20x of 100 samples
+newSamples = replicate(20, mean(table(sample(jar, 100, replace = TRUE))[2]/100))
+printVecInfo(newSamples)
+hist(newSamples)
+
+# replicate sample 100x of 10 samples
+newSamples = replicate(100, mean(table(sample(jar, 100, replace = TRUE))[2]/100))
+printVecInfo(newSamples)
+hist(newSamples)
+
+# airquality dataset
+airQualityTemp = airquality
+
+airQualityTemp = na.omit(airQualityTemp) # remove na
+# airQualityTemp = airQualityTemp[complete.cases(airQualityTemp), ]
+
+# explore ozone
+printVecInfo(airQualityTemp$Ozone)
+hist(airQualityTemp$Ozone)
+
+# explore wind
+printVecInfo(airQualityTemp$Wind)
+hist(airQualityTemp$Wind)
+
+# explore temp
+printVecInfo(airQualityTemp$Temp)
+hist(airQualityTemp$Temp)
+```

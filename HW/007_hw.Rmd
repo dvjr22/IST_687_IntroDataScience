@@ -1,0 +1,124 @@
+---
+title: "HW7"
+author: "Diego Valdes"
+date: "February 25, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r cars}
+rm(list=ls()) # clear work space
+#dev.off(dev.list()["RStudioGD"]) # clear plots
+
+suppressWarnings(require(ggplot2))
+suppressWarnings(require(maps))
+suppressWarnings(require(mapproj))
+suppressWarnings(require(openxlsx))
+suppressWarnings(require(zipcode))
+suppressWarnings(require(openintro))
+
+getwd()
+setwd("C:/Users/dvjr2/Google Drive/Documents/Syracuse/IST_687/HW/")
+
+fileName = "MedianZIP_2_2.xlsx" # manually removed first row and converted to csv
+
+data = read.xlsx(fileName, colNames = FALSE) # read the file
+data = data[-1:-2 , ] # remove unwanted bs
+
+colnames(data) = c("zip", "median", "mean", "population") # col names
+
+data$zip = clean.zipcodes(data$zip) # clean the zip codes
+
+data("zipcode") # load zipcode data
+
+newData = zipcode[zipcode$state != 'HI' & zipcode$state != 'AK', ] # remove HI and AK data
+
+stateData = merge(newData, data, by = "zip") # merge the two df into one all mighty and powerful super df!
+str(stateData) # take a look
+
+# lets do some generic cleaning
+stateData$stateName = tolower(abbr2state(stateData$state))
+stateData$state = tolower(stateData$state)
+stateData$median = as.numeric(stateData$median)
+stateData$mean = as.numeric(stateData$mean)
+stateData$population = as.numeric(stateData$population)
+
+stateIncome = stateData[ , c(2, 3, 6, 7, 8, 9)] # state income data
+
+us = map_data("state") # get map data
+
+#themap = ggplot(stateIncome, aes(map_id = stateName)) + 
+#  geom_map(map = us, fill = "white",  color = "black") +
+#  expand_limits(x = us$long, y = us$lat) + 
+#  coord_map() + ggtitle("USA!")
+
+# mutate the data for plotting
+dataMedian = as.data.frame(tapply(stateIncome$median, stateIncome$stateName, median))
+dataPop = as.data.frame(tapply(stateIncome$population, stateIncome$stateName, sum))
+dataMedian$states = rownames(dataMedian)
+dataPop$states = rownames(dataPop)
+
+colnames(dataMedian) = c("median", "states")
+colnames(dataPop) = c("population", "states")
+
+# median income
+ggplot(dataMedian, aes(map_id = states)) + 
+  geom_map(map = us, aes(fill = median), color = "black") +
+  expand_limits(x = us$long, y = us$lat) + 
+  coord_map() + ggtitle("USA! Median Income")
+
+# population
+ggplot(dataPop, aes(map_id = states)) + 
+  geom_map(map = us, aes(fill = population), color = "black") +
+  expand_limits(x = us$long, y = us$lat) + 
+  coord_map() + ggtitle("USA! Population")
+
+zipMedian = stateData[ , c(1,4,5,6, 9)] # filter to plot them zips
+
+# themap + geom_point(data = zipMedian, aes(x = longitude, y = latitude, color = median))
+
+# median by zip
+ggplot(zipMedian, aes(map_id = stateName)) + 
+  geom_map(map = us) +
+  coord_map() + ggtitle("USA! Median income by zip") +
+  geom_point(aes(x = longitude, y = latitude ,color = median), size = .1)
+
+# median by zip
+ggplot(zipMedian, aes(map_id = stateName, x = longitude, y = latitude, color = median)) + 
+  geom_map(map = us) +
+  coord_map() + ggtitle("USA! Median income by zip... density") +
+  geom_point(size = .1) +
+  stat_density_2d()
+
+# center NY
+lon = -74.00594
+lat = 40.71278
+zoom = 3
+
+# map limts
+xlimit = c(lon - zoom, lon + zoom)
+ylimit = c(lat -zoom, lat + zoom)
+
+# filter data only for NY region
+nyData = zipMedian
+nyData = nyData[nyData$longitude < xlimit[2], ]
+nyData = nyData[nyData$longitude > xlimit[1], ]
+nyData = nyData[nyData$latitude > ylimit[1], ]
+nyData = nyData[nyData$latitude < ylimit[2], ]
+
+# NY data by zip
+ggplot(nyData, aes(map_id = stateName)) + 
+  geom_map(map = us, fill = "black",  color = "white") +
+  coord_map() + ggtitle("USA!") + expand_limits(x = xlimit, y = ylimit) +
+  geom_point(aes(x = longitude, y = latitude ,color = median), size = 1)
+
+# NY data by zip... now with density
+ggplot(nyData, aes(map_id = stateName, x = longitude, y = latitude ,color = median)) + 
+  geom_map(map = us, fill = "black",  color = "white") + 
+  coord_map() + ggtitle("USA!") + expand_limits(x = xlimit, y = ylimit) +
+  geom_point(size = .1) +
+  stat_density_2d()
+```

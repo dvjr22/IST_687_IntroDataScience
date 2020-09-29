@@ -1,0 +1,77 @@
+rm(list=ls()) # clear work space
+dev.off(dev.list()["RStudioGD"]) # clear plots
+
+# import necessary libraries
+suppressWarnings(library("jsonlite"))
+suppressWarnings(library("RCurl"))
+#library(data.table)
+suppressWarnings(library(plyr))
+suppressWarnings(library('sqldf'))
+suppressWarnings(library(stringi))
+
+
+# Load the data
+# get json file
+jsonUrl ="http://data.maryland.gov/api/views/pdvh-tf2u/rows.json"
+jsonObject = getURL(jsonUrl)
+json_file = fromJSON(jsonUrl) 
+
+# extract each element from the list
+length(json_file)
+meta = json_file[[1]] # first element of the list
+data = json_file[[2]] # second element of the list
+
+# Clean the data
+#remove last 8 cols
+data = data[, c(-1:-8)]
+
+# names for cols
+namesOfColumns = c("CASE_NUMBER","BARRACK","ACC_DATE","ACC_TIME","ACC_TIME_CODE",
+                   "DAY_OF_WEEK", "ROAD","INTERSECT_ROAD","DIST_FROM_INTERSECT",
+  "DIST_DIRECTION","CITY_NAME","COUNTY_CODE","COUNTY_NAME","VEHICLE_COUNT",
+  "PROP_DEST","INJURY","COLLISION_WITH_1","COLLISION_WITH_2")
+
+# assign col names
+colnames(data) = namesOfColumns
+
+# What are we dealing with?
+summary(data)
+str(data)
+
+# Lets turn it into a dataframe
+data = as.data.frame(data)
+#data = data.table(data)
+summary(data)
+str(data)
+
+
+# sqldf
+#number of sundays
+data$DAY_OF_WEEK = trimws(data$DAY_OF_WEEK, which = c("both", "left", "right") ) # get rid of white space
+result = sqldf(stri_paste("select count(*) from data where data.DAY_OF_WEEK = 'SUNDAY'"))
+result
+
+# number of injuries
+result = sqldf(stri_paste("select count(*) from data where data.INJURY = 'YES'"))
+result
+
+# injures by day
+data$INJURY0 = ifelse(data$INJURY == 'YES', 1, 0)
+result = sqldf(stri_paste("select data.DAY_OF_WEEK, sum(data.INJURY0) from data group by data.DAY_OF_WEEK"))
+result
+
+#tapply
+
+# injuries on sunday
+data$Sunday = ifelse(data$DAY_OF_WEEK == 'SUNDAY', 1, 0)
+result = tapply(data$Sunday , data$DAY_OF_WEEK == 'SUNDAY', sum) # how many happened on sunday
+result
+
+# accidents with injuries
+result = sum(sapply(data$INJURY0, sum, na.rm = TRUE))
+result
+
+# injuries by day
+tapply(data$INJURY0, data$DAY_OF_WEEK, sum, na.rm = TRUE) # accidents by day
+
+
